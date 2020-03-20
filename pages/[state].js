@@ -20,7 +20,7 @@ import MD from 'react-markdown'
 import { map, find, orderBy, concat, kebabCase } from 'lodash'
 
 export default ({ errorCode, state, daily = [], latest = {}, info = {} }) => {
-  // if (errorCode) return <Error statusCode={errorCode} title="State not found" />
+  if (errorCode) return <Error statusCode={errorCode} title="State not found" />
   const [colorMode] = useColorMode()
   const accessory = {
     bg: colorMode === 'dark' ?? 'rgba(255, 255, 255, 0.75)',
@@ -104,11 +104,16 @@ export default ({ errorCode, state, daily = [], latest = {}, info = {} }) => {
 
 export const getServerSideProps = async ({ params: { state } }) => {
   const states = await loadJSON('./public/states-full.json')
-  const slug = state.toLowerCase()
-  // if (![...map(states, 'code'), ...map(states, 'slug')].includes(slug)) {
+  // if (
+  //   ![...map(states, 'code'), ...map(states, 'slug')]
+  //     .map(s => s.toLowerCase)
+  //     .includes(state.toLowerCase())
+  // ) {
   //   return { props: { errorCode: 404 } }
   // }
-  state = find(states, ['code', state]) || find(states, ['slug', state])
+  state =
+    find(states, ['code', state.toUpperCase()]) ||
+    find(states, ['slug', state.toLowerCase()])
   const { code } = state
   let daily = await getJSON(
     `https://covidtracking.com/api/states/daily?state=${code}`
