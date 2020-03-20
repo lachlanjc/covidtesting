@@ -105,9 +105,9 @@ export default ({ errorCode, state, daily = [], latest = {}, info = {} }) => {
 export const getServerSideProps = async ({ params: { state } }) => {
   const states = await loadJSON('./public/states-full.json')
   const slug = state.toLowerCase()
-  if (![...map(states, 'code'), ...map(states, 'slug')].includes(slug)) {
-    return { props: { errorCode: 404 } }
-  }
+  // if (![...map(states, 'code'), ...map(states, 'slug')].includes(slug)) {
+  //   return { props: { errorCode: 404 } }
+  // }
   state = find(states, ['code', state]) || find(states, ['slug', state])
   const { code } = state
   let daily = await getJSON(
