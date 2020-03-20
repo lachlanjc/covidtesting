@@ -1,0 +1,29 @@
+{
+  "name": "covidtesting",
+  "version": "0.0.1",
+  "author": "Lachlan Campbell <lachlan@hackclub.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next"
+  },
+  "dependencies": {
+    "@hackclub/theme": "^0.1.0-alpha.0",
+    "comma-number": "^2.0.1",
+    "human-format": "^0.10.1",
+    "isomorphic-unfetch": "^3.0.0",
+    "load-json-file": "^6.2.0",
+    "lodash": "^4.17.15",
+    "next": "^9.3.1",
+    "nprogress": "^0.2.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-feather": "^2.0.3",
+    "react-markdown": "^4.3.1",
+    "recharts": "^1.8.5",
+    "theme-ui": "^0.3.1",
+    "write-json-file": "^4.3.0"
+  }
+}
