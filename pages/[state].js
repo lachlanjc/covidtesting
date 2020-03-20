@@ -22,10 +22,11 @@ import { map, find, orderBy, concat, kebabCase } from 'lodash'
 export default ({ errorCode, state, daily = [], latest = {}, info = {} }) => {
   if (errorCode) return <Error statusCode={errorCode} title="State not found" />
   const [colorMode] = useColorMode()
-  const accessory =
-    colorMode === 'dark'
-      ? { textShadow: 'none' }
-      : { bg: 'rgba(255, 255, 255, 0.75)', textShadow: 'none' }
+  const accessory = {
+    bg: colorMode === 'dark' ?? 'rgba(255, 255, 255, 0.75)',
+    mx: [2, 3],
+    textShadow: 'none'
+  }
   return (
     <>
       <Header
@@ -41,15 +42,17 @@ export default ({ errorCode, state, daily = [], latest = {}, info = {} }) => {
               info.covid19SiteOld
             }
             variant="outline"
-            sx={{ ...accessory, color: 'blue', mx: [2, 3] }}
+            sx={{ ...accessory, color: 'blue' }}
           >
             <Globe />
-            State Site
+            State Health Site
           </Button>
           {info.twitter && (
             <Button
+              as="a"
+              href={`https://twitter.com/${info.twitter}`}
               variant="outline"
-              sx={{ ...accessory, color: 'twitter', mx: [2, 3] }}
+              sx={{ ...accessory, color: 'twitter' }}
             >
               <Twitter />
               State COVID Twitter
