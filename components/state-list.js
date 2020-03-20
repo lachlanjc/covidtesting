@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Flex, Label, Input, Link as A } from 'theme-ui'
-import { filter, orderBy } from 'lodash'
+import { filter, kebabCase } from 'lodash'
 import Link from 'next/link'
 import states from '../public/states.json'
 import useFocusable from '../lib/use-focusable'
@@ -44,7 +44,7 @@ const StateList = () => {
     />,
     <Flex sx={{ flexWrap: 'wrap', mx: -2, mt: 3 }} key="list">
       {list.map(state => (
-        <Link href={`/${state.abbrev}`} key={state.abbrev} passHref>
+        <Link href={`/${kebabCase(state.name)}`} key={state.abbrev} passHref>
           <A
             children={state.name}
             sx={{

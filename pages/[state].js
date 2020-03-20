@@ -17,7 +17,7 @@ import { getJSON } from '../lib/util'
 import loadJSON from 'load-json-file'
 import Error from 'next/error'
 import MD from 'react-markdown'
-import { map, find, orderBy } from 'lodash'
+import { map, find, orderBy, concat, kebabCase } from 'lodash'
 
 export default ({ errorCode, state, daily = [], latest = {}, info = {} }) => {
   if (errorCode) return <Error statusCode={errorCode} title="State not found" />
@@ -100,11 +100,11 @@ export default ({ errorCode, state, daily = [], latest = {}, info = {} }) => {
 }
 
 export const getServerSideProps = async ({ params: { state } }) => {
-  const miniStates = await loadJSON('./public/states.json')
-  if (!map(miniStates, 'abbrev').includes(state.toUpperCase())) {
+  const states = await loadJSON('./public/states-full.json')
+  const slug = state.toLowerCase()
+  if (![...map(states, 'code'), ...map(states, 'slug')].includes(slug)) {
     return { props: { errorCode: 404 } }
   }
-  const states = await loadJSON('./public/states-full.json')
   state = find(states, ['code', state]) || find(states, ['slug', state])
   const { code } = state
   let daily = await getJSON(
