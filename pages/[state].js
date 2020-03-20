@@ -20,7 +20,7 @@ import MD from 'react-markdown'
 import { map, find, orderBy, concat, kebabCase } from 'lodash'
 
 export default ({ errorCode, state, daily = [], latest = {}, info = {} }) => {
-  if (errorCode) return <Error statusCode={errorCode} title="State not found" />
+  // if (errorCode) return <Error statusCode={errorCode} title="State not found" />
   const [colorMode] = useColorMode()
   const accessory = {
     bg: colorMode === 'dark' ?? 'rgba(255, 255, 255, 0.75)',
