@@ -26,7 +26,7 @@ const StateChart = ({ data, colorMode }) => (
       <XAxis dataKey="dateChecked" tickFormatter={shortDate} />
       <YAxis
         tickFormatter={n => human(n).replace(' ', '')}
-        label={{ value: 'Tests', angle: '-90', position: 'left' }}
+        label={{ value: 'Tests', angle: -90, position: 'left' }}
       />
       <Tooltip
         separator=": "
