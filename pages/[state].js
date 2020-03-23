@@ -16,12 +16,10 @@ import {
 import { Twitter, Globe } from 'react-feather'
 import { getJSON } from '../lib/util'
 import loadJSON from 'load-json-file'
-// import Error from 'next/error'
 import MD from 'react-markdown'
 import { filter, find, orderBy, round, pick, map, concat } from 'lodash'
 
-export default ({ errorCode, state, daily = [], latest = {}, info = {} }) => {
-  // if (errorCode) return <Error statusCode={errorCode} title="State not found" />
+export default ({ state, daily = [], latest = {}, info = {} }) => {
   const [colorMode] = useColorMode()
   const accessory = {
     bg: colorMode === 'dark' ? null : 'rgba(255, 255, 255, 0.75)',

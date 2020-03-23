@@ -2,8 +2,8 @@ import Head from 'next/head'
 
 export default ({
   title = 'COVID-19 Testing in the U.S.',
-  description = 'A',
-  // image = 'https://testing.predictcovid.com/card.png',
+  description = 'Understand the critical shortage of COVID-19 testing across the country with an interactive, state-by-state data visualization. Updated daily.',
+  image = 'https://testing.predictcovid.com/card.png',
   url = 'https://testing.predictcovid.com/'
 }) => (
   <Head>
@@ -16,9 +16,9 @@ export default ({
     <meta name="description" content={description} />
     <meta property="og:description" content={description} />
     <meta name="twitter:description" content={description} />
-    {/* <meta property="og:image" content={image} /> */}
-    {/* <meta name="twitter:card" content="summary_large_image" /> */}
-    {/* <meta name="twitter:image" content={image} /> */}
+    <meta property="og:image" content={image} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={image} />
     <link
       rel="apple-touch-icon"
       sizes="180x180"
