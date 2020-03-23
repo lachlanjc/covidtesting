@@ -43,6 +43,33 @@ const Swatch = ({ bg, value }) => (
   </>
 )
 
+const Legend = ({ colorRange, total }) => (
+  <Flex sx={{ alignItems: 'center' }}>
+    <Swatch bg={colorRange[0]} value={min(total)} />
+    <Swatch bg={colorRange[3]} />
+    <Swatch bg={colorRange[5]} />
+    <Swatch bg={colorRange[7]} />
+    <Swatch bg={last(colorRange)} value={max(total)} />
+  </Flex>
+)
+
+const Stats = ({ today }) => (
+  <Grid columns={[2, 3]} sx={{ mb: [3, null, 4] }}>
+    <Stat value={commaNumber(today.total)} label="Total U.S. tests" />
+    <Stat
+      value={round((today.total / 327200000) * 100, 3)}
+      unit="%"
+      label="Tests / U.S. population"
+    />
+    <Stat
+      value={round((today.positive / today.total) * 100, 1)}
+      unit="%"
+      label="Tests are positive"
+      sx={{ display: ['none !important', 'flex !important'] }}
+    />
+  </Grid>
+)
+
 const Reading = props => (
   <Link
     target="_blank"
@@ -65,12 +92,32 @@ const Reading = props => (
   />
 )
 
+const Readings = () => (
+  <Grid columns={[null, 2]} gap={3}>
+    <Reading href="https://covidtracking.com/about-tracker/">
+      <Bookmark />
+      About the data
+    </Reading>
+    <Reading href="https://www.nytimes.com/interactive/2020/03/17/us/coronavirus-testing-data.html">
+      <BarChart2 />
+      NYTimes interactive on testing
+    </Reading>
+    <Reading href="https://twitter.com/NateSilver538/status/1240652999325818886">
+      <Twitter />
+      Nate Silver on testing
+    </Reading>
+    <Reading href="https://www.evive.care">
+      <MapPin />
+      Find testing near you
+    </Reading>
+  </Grid>
+)
+
 export default ({ data = [], states = [], daily = [], today = {} }) => {
   const [colorMode] = useColorMode()
   const colorRange = getColorRange(colorMode === 'dark')
   const total = map(data, 'totalPC')
   const [showValues, setShowValues] = useState(false)
-  const stat = key => commaNumber(today[key])
   return (
     <>
       <Meta />
@@ -104,10 +151,10 @@ export default ({ data = [], states = [], daily = [], today = {} }) => {
       </Heading>
       <Container
         sx={{
-          fontFamily: 'heading',
           display: 'flex',
           flexDirection: ['column-reverse', 'column'],
           '.rsm-geographies': {
+            fontFamily: 'heading',
             transform: theme => `translateY(-${theme.space[4]}px)`
           }
         }}
@@ -117,18 +164,11 @@ export default ({ data = [], states = [], daily = [], today = {} }) => {
           columns={[null, null, '2fr 1fr 1fr']}
           gap={3}
           sx={{
-            fontFamily: 'body',
             label: { display: 'flex', alignItems: 'center' },
             input: { flexShrink: 'none', mr: 2 }
           }}
         >
-          <Flex sx={{ alignItems: 'center' }}>
-            <Swatch bg={colorRange[0]} value={min(total)} />
-            <Swatch bg={colorRange[3]} />
-            <Swatch bg={colorRange[5]} />
-            <Swatch bg={colorRange[7]} />
-            <Swatch bg={last(colorRange)} value={max(total)} />
-          </Flex>
+          <Legend colorRange={colorRange} total={total} />
           <Label>
             <input
               type="checkbox"
@@ -147,20 +187,7 @@ export default ({ data = [], states = [], daily = [], today = {} }) => {
         />
       </Container>
       <Container variant="copy" sx={{ pt: [3, 0], pb: [4, 5] }}>
-        <Grid columns={[2, 3]} sx={{ mb: [3, null, 4] }}>
-          <Stat value={stat('total')} label="Total U.S. tests" />
-          <Stat
-            value={round((today.total / 327200000) * 100, 3)}
-            unit="%"
-            label="Tests / U.S. population"
-          />
-          <Stat
-            value={round((today.positive / today.total) * 100, 1)}
-            unit="%"
-            label="Tests are positive"
-            sx={{ display: ['none !important', 'flex !important'] }}
-          />
-        </Grid>
+        <Stats today={today} />
         <Heading as="h2" variant="headline">
           Top states
         </Heading>
@@ -171,24 +198,7 @@ export default ({ data = [], states = [], daily = [], today = {} }) => {
         <Heading as="h2" variant="headline" sx={{ mt: 4 }}>
           Relevant links
         </Heading>
-        <Grid columns={[null, 2]} gap={3}>
-          <Reading href="https://covidtracking.com/about-tracker/">
-            <Bookmark />
-            About the data
-          </Reading>
-          <Reading href="https://www.nytimes.com/interactive/2020/03/17/us/coronavirus-testing-data.html">
-            <BarChart2 />
-            NYTimes interactive on testing
-          </Reading>
-          <Reading href="https://twitter.com/NateSilver538/status/1240652999325818886">
-            <Twitter />
-            Nate Silver on testing
-          </Reading>
-          <Reading href="https://www.evive.care">
-            <MapPin />
-            Find testing near you
-          </Reading>
-        </Grid>
+        <Readings />
       </Container>
     </>
   )
