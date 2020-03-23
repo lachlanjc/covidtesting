@@ -13,13 +13,12 @@ import {
   Text,
   useColorMode
 } from 'theme-ui'
-import { alpha } from '@theme-ui/color'
 import { Twitter, Globe } from 'react-feather'
 import { getJSON } from '../lib/util'
 import loadJSON from 'load-json-file'
 // import Error from 'next/error'
 import MD from 'react-markdown'
-import { filter, find, orderBy, round } from 'lodash'
+import { filter, find, orderBy, round, pick, map, concat } from 'lodash'
 
 export default ({ errorCode, state, daily = [], latest = {}, info = {} }) => {
   // if (errorCode) return <Error statusCode={errorCode} title="State not found" />
@@ -156,14 +155,19 @@ export default ({ errorCode, state, daily = [], latest = {}, info = {} }) => {
   )
 }
 
-export const getServerSideProps = async req => {
+export const getStaticPaths = async () => {
   const states = await loadJSON('./public/states-full.json')
-  let { state } = req.query
+  const slugs = concat(map(states, 'code'), map(states, 'slug'))
+  const paths = slugs.map(state => ({ params: { state } }))
+  return { paths, fallback: false }
+}
+
+export const getStaticProps = async ({ params }) => {
+  const states = await loadJSON('./public/states-full.json')
+  let { state } = params
   state =
     find(states, ['code', state.toUpperCase()]) ||
     find(states, ['slug', state.toLowerCase()])
-  // if (!state) return { props: { errorCode: 404 } }
-
   const { code } = state
   let daily = await getJSON(`https://covidtracking.com/api/states/daily`)
   daily = filter(daily, { state: code })

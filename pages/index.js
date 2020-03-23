@@ -184,7 +184,7 @@ export default ({ data = [], states = [], today = {} }) => {
   )
 }
 
-export const getServerSideProps = async () => {
+export const getStaticProps = async () => {
   let states = await loadJSON('./public/states-full.json')
   states = states.map(state => pick(state, ['code', 'state', 'population']))
   let data = await getJSON('https://covidtracking.com/api/states')
