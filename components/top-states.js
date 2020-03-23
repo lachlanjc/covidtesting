@@ -1,10 +1,12 @@
-import { Box, Text, Grid, Progress, useColorMode } from 'theme-ui'
+import { useState } from 'react'
+import { Box, Button, Text, Grid, Progress, useColorMode } from 'theme-ui'
 import { map, max, orderBy, reverse, take } from 'lodash'
 import commaNumber from 'comma-number'
 
 const TopStates = ({ data }) => {
+  const [limit, setLimit] = useState(10)
   const [colorMode] = useColorMode()
-  const ranked = take(reverse(orderBy(data, 'positive')), 10)
+  const ranked = reverse(orderBy(data, 'positive'))
   const largest = max(map(data, 'total'))
   const cols = ['1fr 2fr 2fr 3fr', '2fr 1fr 1fr 5fr']
   return (
@@ -30,7 +32,7 @@ const TopStates = ({ data }) => {
         </Text>
         <th></th>
       </Grid>
-      {ranked.map(state => (
+      {take(ranked, limit).map(state => (
         <Grid
           key={state.id}
           as="tr"
@@ -66,6 +68,15 @@ const TopStates = ({ data }) => {
           </tc>
         </Grid>
       ))}
+      <Box sx={{ textAlign: 'center', mt: 3 }}>
+        <Button
+          variant="outline"
+          sx={{ py: 1, px: 2 }}
+          onClick={() => setLimit(l => (l === 10 ? data.length : 10))}
+        >
+          {limit === 10 ? 'Show all states' : 'Hide states'}
+        </Button>
+      </Box>
     </Box>
   )
 }
