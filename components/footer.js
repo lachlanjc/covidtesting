@@ -1,4 +1,4 @@
-import { Flex, Box, Text, Link } from 'theme-ui'
+import { Box, Text, Link } from 'theme-ui'
 
 export default () => (
   <Box

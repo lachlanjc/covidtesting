@@ -1,25 +1,6 @@
-import { Box, Donut, Flex, Text } from 'theme-ui'
+import { Box, Flex, Text } from 'theme-ui'
 import { isEmpty } from 'lodash'
 import human from 'human-format'
-
-export const StatGrid = ({ quad = false, ...props }) => (
-  <Box
-    {...props}
-    sx={{
-      display: 'grid',
-      gridTemplateColumns: ['repeat(2, 1fr)', `repeat(${quad ? 4 : 2}, 1fr)`],
-      gridGap: 3,
-      alignItems: 'flex-end',
-      textAlign: 'left',
-      mt: [3, 4],
-      mb: [3, 4],
-      div: {
-        gridColumn: quad ? 'span 2' : null
-      },
-      ...props.sx
-    }}
-  />
-)
 
 export default ({
   value,
@@ -48,28 +29,12 @@ export default ({
   >
     <Flex
       sx={{
-        flexDirection: unit === '%' ? 'row-reverse' : 'row',
         alignItems: 'center',
         justifyContent: 'start',
         my: 2,
         position: 'relative'
       }}
     >
-      {!isEmpty(unit) && (
-        <Text
-          as="sup"
-          sx={{
-            fontSize: lg ? [2, 3] : [1, 2],
-            color: color === 'text' ? 'secondary' : color,
-            position: [null, null, unit === '%' ? null : 'absolute'],
-            left: [null, null, -3],
-            ml: [null, unit === '%' ? 1 : null],
-            mr: [null, 1],
-            pt: [null, 1]
-          }}
-          children={unit}
-        />
-      )}
       <Text
         as="span"
         sx={{
@@ -77,11 +42,27 @@ export default ({
           fontSize: lg ? [4, 5] : 4,
           fontWeight: 'stat',
           letterSpacing: 'title',
-          my: 0,
-          width: '100%'
+          my: 0
         }}
-        children={typeof value === 'number' ? human(value) : value || '—'}
+        children={
+          typeof value === 'number' && unit !== '%'
+            ? human(value)
+            : value || '—'
+        }
       />
+      {!isEmpty(unit) && (
+        <Text
+          as="sup"
+          sx={{
+            fontSize: lg ? [2, 3] : [1, 2],
+            color: color === 'text' ? 'secondary' : color,
+            ml: [null, unit === '%' ? 1 : null],
+            mr: [null, 1],
+            pt: [null, 1]
+          }}
+          children={unit}
+        />
+      )}
       {!isEmpty(of) && (
         <Text
           as="sup"
@@ -95,14 +76,6 @@ export default ({
             }
           }}
           children={of}
-        />
-      )}
-      {unit === '%' && (
-        <Donut
-          value={value / 100}
-          size={lg ? 48 : 32}
-          strokeWidth={lg ? 3 : 2}
-          sx={{ mr: 2, width: lg ? [32, 48] : 32, height: lg ? [32, 48] : 32 }}
         />
       )}
     </Flex>

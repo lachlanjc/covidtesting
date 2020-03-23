@@ -3,7 +3,6 @@ import Meta from '../components/meta'
 import Header from '../components/header'
 import StateGraphic from '../components/states-graphic'
 import Stat from '../components/stat'
-import StatChart from '../components/stat-chart'
 import StateList from '../components/state-list'
 import {
   Badge,
@@ -96,11 +95,33 @@ export default ({ data = [], states = [], daily = [], today = {} }) => {
           .
         </Text>
       </Header>
-      <Container sx={{ maxWidth: [null, null, 'copyPlus'] }}>
-        <Heading as="h2" variant="headline">
-          Tests per capita
-        </Heading>
-        <Grid columns={[null, null, 2]} gap={3}>
+      <Heading
+        as="h2"
+        variant="headline"
+        sx={{ textAlign: [null, 'center'], px: 3 }}
+      >
+        Tests per capita
+      </Heading>
+      <Container
+        sx={{
+          fontFamily: 'heading',
+          display: 'flex',
+          flexDirection: ['column-reverse', 'column'],
+          '.rsm-geographies': {
+            transform: theme => `translateY(-${theme.space[4]}px)`
+          }
+        }}
+      >
+        <Grid
+          as="aside"
+          columns={[null, null, '2fr 1fr 1fr']}
+          gap={3}
+          sx={{
+            fontFamily: 'body',
+            label: { display: 'flex', alignItems: 'center' },
+            input: { flexShrink: 'none', mr: 2 }
+          }}
+        >
           <Flex sx={{ alignItems: 'center' }}>
             <Swatch bg={colorRange[0]} value={min(total)} />
             <Swatch bg={colorRange[3]} />
@@ -108,13 +129,7 @@ export default ({ data = [], states = [], daily = [], today = {} }) => {
             <Swatch bg={colorRange[7]} />
             <Swatch bg={last(colorRange)} value={max(total)} />
           </Flex>
-          <Label
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              input: { flexShrink: 'none', mr: 2 }
-            }}
-          >
+          <Label>
             <input
               type="checkbox"
               name="showValues"
@@ -124,8 +139,6 @@ export default ({ data = [], states = [], daily = [], today = {} }) => {
             Show values on map
           </Label>
         </Grid>
-      </Container>
-      <Container sx={{ fontFamily: 'heading' }}>
         <StateGraphic
           data={data}
           states={states}
@@ -133,36 +146,24 @@ export default ({ data = [], states = [], daily = [], today = {} }) => {
           showValues={showValues}
         />
       </Container>
-      <Container variant="copy" sx={{ pt: [3, 4], pb: [4, 5] }}>
-        <Heading as="h2" variant="headline">
-          U.S. testing stats
-        </Heading>
-        <Grid
-          columns={[2, 3]}
-          sx={{
-            mb: [4, null, 5],
-            section: { position: 'relative', minHeight: 96 },
-            '.recharts-responsive-container': {
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0
-            }
-          }}
-        >
-          <section>
-            <StatChart data={daily} dataKey="total" color="orange" />
-            <Stat value={stat('total')} label="Total tests" />
-          </section>
-          <section>
-            <StatChart data={daily} dataKey="positive" color="red" />
-            <Stat value={stat('positive')} label="Positive tests" />
-          </section>
-          <Box as="section" sx={{ display: ['none', 'block'] }}>
-            <StatChart data={daily} dataKey="negative" color="muted" />
-            <Stat value={stat('negative')} label="Negative tests" />
-          </Box>
+      <Container variant="copy" sx={{ pt: [3, 0], pb: [4, 5] }}>
+        <Grid columns={[2, 3]} sx={{ mb: [3, null, 4] }}>
+          <Stat value={stat('total')} label="Total U.S. tests" />
+          <Stat
+            value={round((today.total / 327200000) * 100, 3)}
+            unit="%"
+            label="Tests / U.S. population"
+          />
+          <Stat
+            value={round((today.positive / today.total) * 100, 1)}
+            unit="%"
+            label="Tests are positive"
+            sx={{ display: ['none !important', 'flex !important'] }}
+          />
         </Grid>
+        <Heading as="h2" variant="headline">
+          Top states
+        </Heading>
         <Heading as="h2" variant="headline">
           See full state details
         </Heading>
