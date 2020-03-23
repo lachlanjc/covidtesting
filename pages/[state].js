@@ -32,6 +32,7 @@ export default ({ errorCode, state, daily = [], latest = {}, info = {} }) => {
       <Header
         title={state.state}
         bgImg={state.landscape_background_url.replace('1280x720', '1920x1080')}
+        sx={{ textAlign: 'center', mb: [4, 5] }}
       >
         <Flex sx={{ mt: [3, 4], justifyContent: 'center', flexWrap: 'wrap' }}>
           <Button

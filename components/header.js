@@ -33,10 +33,8 @@ export default ({
       sx={{
         bg: 'sheet',
         color: 'text',
-        pt: bgImg ? [6, null, null, null, 6] : [5, null, null, null, 5],
-        pb: [4, 5, null, null, 6],
-        mb: [4, 5, null, null, 6],
-        textAlign: 'center',
+        pt: bgImg ? 6 : 4,
+        pb: 4,
         ...sx
       }}
     >
@@ -52,7 +50,7 @@ export default ({
           <Heading
             as="h2"
             variant="subtitle"
-            sx={{ mt: [3, 4], color: 'text' }}
+            sx={{ mt: 3, color: 'text' }}
             children={desc}
           />
         )}
