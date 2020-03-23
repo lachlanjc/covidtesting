@@ -1,16 +1,39 @@
-import { useState } from 'react'
+import { useState, useLayoutEffect } from 'react'
 import { Box, Button, Text, Grid, Progress, useColorMode } from 'theme-ui'
-import { map, max, orderBy, reverse, take } from 'lodash'
+import { map, max, orderBy, reverse, round, take } from 'lodash'
+import Controls from './controls'
 import commaNumber from 'comma-number'
 
+const cols = ['1fr 2fr 2fr 3fr', '2fr 1fr 1fr 5fr']
+
 const TopStates = ({ data }) => {
+  const [pc, setPC] = useState(false)
   const [limit, setLimit] = useState(10)
   const [colorMode] = useColorMode()
-  const ranked = reverse(orderBy(data, 'positive'))
-  const largest = max(map(data, 'total'))
-  const cols = ['1fr 2fr 2fr 3fr', '2fr 1fr 1fr 5fr']
-  return (
-    <Box as="table">
+
+  const dataKey = pc ? ['positivePC', 'totalPC'] : ['positive', 'total']
+  const dataLabel = pc ? '/100k' : 'tests'
+  const dataFunc = pc ? n => round(n, 1) : commaNumber
+
+  const ranked = reverse(orderBy(data, dataKey[0]))
+  const [largest, setLargest] = useState(max(map(data, dataKey[1])))
+  useLayoutEffect(() => setLargest(max(map(data, dataKey[1]))))
+
+  return [
+    <Controls key="controls" sx={{ mb: 3 }}>
+      Show
+      <Button
+        variant={!pc ? 'primary' : 'outline'}
+        onClick={() => setPC(false)}
+      >
+        All
+      </Button>
+      <Button variant={pc ? 'primary' : 'outline'} onClick={() => setPC(true)}>
+        Per capita
+      </Button>
+      tests
+    </Controls>,
+    <Box as="table" key="table">
       <Grid
         as="thead"
         gap={[3, 4]}
@@ -25,10 +48,10 @@ const TopStates = ({ data }) => {
       >
         <th></th>
         <Text as="th" sx={{ color: 'red' }}>
-          Positive tests
+          Positive {dataLabel}
         </Text>
         <Text as="th" sx={{ color: 'muted' }}>
-          Total tests
+          Total {dataLabel}
         </Text>
         <th></th>
       </Grid>
@@ -49,21 +72,21 @@ const TopStates = ({ data }) => {
             </Text>
           </Text>
           <Text as="tc" sx={{ color: 'red' }}>
-            {commaNumber(state.positive)}
+            {dataFunc(state[dataKey[0]])}
           </Text>
           <Text as="tc" sx={{ color: 'muted' }}>
-            {commaNumber(state.total)}
+            {dataFunc(state[dataKey[1]])}
           </Text>
           <tc>
             <Progress
               max={1}
-              value={state.positive / state.total}
+              value={state[dataKey[0]] / state[dataKey[1]]}
               sx={{
                 height: 8,
                 bg: colorMode === 'dark' ? 'slate' : 'sunken',
                 minWidth: 12
               }}
-              style={{ width: `${(state.total / largest) * 100}%` }}
+              style={{ width: `${(state[dataKey[1]] / largest) * 100}%` }}
             />
           </tc>
         </Grid>
@@ -78,7 +101,7 @@ const TopStates = ({ data }) => {
         </Button>
       </Box>
     </Box>
-  )
+  ]
 }
 
 export default TopStates

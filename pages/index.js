@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import Meta from '../components/meta'
 import Header from '../components/header'
+import Controls from '../components/controls'
 import StateGraphic from '../components/states-graphic'
 import Stat from '../components/stat'
 import TopStates from '../components/top-states'
@@ -41,7 +42,7 @@ const Swatch = ({ bg, value }) => (
     />
     {value && (
       <Text as="span" sx={{ color: 'text', mr: 4 }}>
-        {round(value)}/100K
+        {round(value)}/100k
       </Text>
     )}
   </>
@@ -115,22 +116,6 @@ const Readings = () => (
       Find testing near you
     </Reading>
   </Grid>
-)
-
-const Controls = props => (
-  <Flex
-    {...props}
-    sx={{
-      alignItems: 'center',
-      button: {
-        px: 2,
-        py: 0,
-        ':first-of-type': { mx: 2 },
-        ':last-of-type': { mr: 2 }
-      },
-      ...props.sx
-    }}
-  />
 )
 
 export default ({ data = [], states = [], today = {} }) => {
