@@ -92,16 +92,7 @@ export default ({ material = false }) => {
   const { pathname } = useRouter()
   const back = pathname !== '/'
   return (
-    <Background
-      as="nav"
-      colorMode={mode}
-      sx={{
-        bg: mode === 'dark' ? 'darkless' : 'smoke',
-        color: 'nav',
-        py: 3
-      }}
-      key="nav"
-    >
+    <Background as="nav" colorMode={mode} sx={{ bg: 'sheet', py: 3 }} key="nav">
       <Container
         sx={{
           maxWidth: [null, null, 'copyPlus'],

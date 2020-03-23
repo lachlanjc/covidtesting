@@ -33,7 +33,7 @@ export default ({
       sx={{
         bg: 'sheet',
         color: 'text',
-        pt: bgImg ? 6 : 4,
+        pt: bgImg ? 6 : 3,
         pb: 4,
         mb: 4,
         ...sx
