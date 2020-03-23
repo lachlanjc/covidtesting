@@ -35,6 +35,7 @@ export default ({
         color: 'text',
         pt: bgImg ? 6 : 4,
         pb: 4,
+        mb: 4,
         ...sx
       }}
     >

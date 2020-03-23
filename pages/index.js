@@ -23,10 +23,12 @@ export default ({ data = [], states = [] }) => {
           .
         </Text>
       </Header>
-      <Container>
-        <StateGraphic data={data} states={states} />
+      <Container sx={{ my: [-2, null, -4, -5], fontFamily: 'heading' }}>
+        <StateGraphic data={data} states={states} colorRange={colorRange} />
       </Container>
-      <Container sx={{ maxWidth: [null, null, 'copyPlus'], py: [4, 5] }}>
+      <Container
+        sx={{ maxWidth: [null, null, 'copyPlus'], pt: [3, 4], pb: [4, 5] }}
+      >
         <Heading as="h2" variant="headline">
           Jump to a state
         </Heading>

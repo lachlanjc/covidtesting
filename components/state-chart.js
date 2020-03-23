@@ -56,7 +56,8 @@ const StateChart = ({ data, colorMode }) => (
       />
 
       <style>{`
-        .recharts-label {
+        .recharts-label,
+        .recharts-text {
           fill: ${theme.colors.muted};
         }
         .recharts-default-tooltip {
@@ -67,8 +68,8 @@ const StateChart = ({ data, colorMode }) => (
           font-size: 2rem;
           line-height: 1.5;
         }
-        ${colorMode === 'dark' ??
-          `{
+        ${colorMode === 'dark' &&
+          `
           .recharts-default-tooltip {
             background-color: #1e1e1e !important;
           }
@@ -86,7 +87,7 @@ const StateChart = ({ data, colorMode }) => (
           .recharts-cartesian-grid line {
             opacity: 0.25 !important;
           }
-        }`}
+        `}
       `}</style>
     </LineChart>
   </ResponsiveContainer>

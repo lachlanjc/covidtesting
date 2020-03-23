@@ -21,14 +21,14 @@ const Material = styled(Box)`
          background-color: rgba(0, 0, 0, 0.875);
          @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
            background-color: rgba(0, 0, 0, 0.75);
-           -webkit-backdrop-filter: saturate(180%) blur(12px);
+           -webkit-backdrop-filter: saturate(180%) blur(8px);
          }
          `
       : `
            background-color: rgba(255, 255, 255, 0.98);
            @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
              background-color: rgba(255, 255, 255, 0.75);
-             -webkit-backdrop-filter: saturate(180%) blur(12px);
+             -webkit-backdrop-filter: saturate(180%) blur(8px);
            }
          `};
   @media (prefers-reduced-transparency: reduce) {
