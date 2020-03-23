@@ -33,7 +33,7 @@ const Readings = () => (
       <BarChart2 />
       NYTimes interactive on testing
     </Reading>
-    <Reading href="https://twitter.com/NateSilver538/status/1240652999325818886">
+    <Reading href="https://twitter.com/NateSilver538/status/1240652133210492929">
       <Twitter />
       Nate Silver on testing
     </Reading>
