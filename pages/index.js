@@ -58,7 +58,7 @@ export default ({ data = [], states = [] }) => {
           </Badge>{' '}
           across the country, so we can’t know how many cases states have. This
           site shows the number of tests each state has performed relative to
-          their populations.
+          their population.
         </Text>
         <Text sx={{ color: 'secondary', mt: 3 }}>
           All data from{' '}

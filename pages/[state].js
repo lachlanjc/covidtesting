@@ -3,13 +3,14 @@ import Stat from '../components/stat'
 import StateChart from '../components/state-chart'
 import {
   BaseStyles,
+  Button,
+  Card,
   Container,
   Flex,
-  Button,
-  Text,
   Grid,
-  Card,
   Heading,
+  Link,
+  Text,
   useColorMode
 } from 'theme-ui'
 import { alpha } from '@theme-ui/color'
@@ -25,7 +26,7 @@ export default ({ errorCode, state, daily = [], latest = {}, info = {} }) => {
   const [colorMode] = useColorMode()
   const accessory = {
     bg: colorMode === 'dark' ? null : 'rgba(255, 255, 255, 0.75)',
-    mx: [2, 3],
+    m: [1, 2, 3],
     textShadow: 'none'
   }
   return (
@@ -114,7 +115,7 @@ export default ({ errorCode, state, daily = [], latest = {}, info = {} }) => {
         <Grid
           columns={[null, '2fr 1fr']}
           gap={[3, 4, 5]}
-          sx={{ mt: [4, null, null, 5] }}
+          sx={{ my: [4, null, null, 5] }}
         >
           <div>
             <Heading variant="headline" as="h2">
@@ -143,6 +144,13 @@ export default ({ errorCode, state, daily = [], latest = {}, info = {} }) => {
             </Grid>
           </div>
         </Grid>
+        <Text sx={{ color: 'secondary', mt: 3 }}>
+          All data from{' '}
+          <Link href="https://covidtracking.com/">
+            The COVID Tracking Project
+          </Link>
+          .
+        </Text>
       </Container>
     </>
   )
