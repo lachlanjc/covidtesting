@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import Meta from '../components/meta'
 import Header from '../components/header'
 import StateGraphic from '../components/states-graphic'
@@ -6,6 +7,8 @@ import {
   Badge,
   Box,
   Container,
+  Flex,
+  Grid,
   Heading,
   Link,
   Text,
@@ -13,9 +16,32 @@ import {
 } from 'theme-ui'
 import { getJSON } from '../lib/util'
 import loadJSON from 'load-json-file'
-import { find, map, pick } from 'lodash'
+import { find, map, pick, min, max, round, last } from 'lodash'
 
+// prettier-ignore
+const getColorRange = dark =>
+  dark
+    ? [ '#5e240d', '#6a290d', '#752f0d', '#7c3803', '#7e4e00', '#7e5c00',
+        '#7f6a00', '#7f7500', '#7d7f00', '#6f7f00', '#6a8000' ]
+    : [ '#b56c50', '#cd6644', '#e55934', '#f06529', '#f28b22', '#f2af23',
+        '#f2d323', '#f1e825', '#e5f127', '#d5f028', '#cff02b' ]
+
+const Swatch = ({ bg, value }) => (
+  <>
+    <Box
+      sx={{ display: 'inline-block', p: 3, bg, borderRadius: 'default', mr: 2 }}
+    />
+    {value && (
+      <Text as="span" sx={{ color: 'text', mr: 4 }}>
+        {round(value)}/100K
+      </Text>
+    )}
+  </>
+)
 export default ({ data = [], states = [] }) => {
+  const [colorMode] = useColorMode()
+  const colorRange = getColorRange(colorMode === 'dark')
+  const total = map(data, 'totalPC')
   return (
     <>
       <Meta />
@@ -40,6 +66,20 @@ export default ({ data = [], states = [] }) => {
           .
         </Text>
       </Header>
+      <Container sx={{ maxWidth: [null, null, 'copyPlus'] }}>
+        <Heading as="h2" variant="headline">
+          Tests per capita
+        </Heading>
+        <Grid columns={[null, null, 2]} gap={3}>
+          <Flex sx={{ alignItems: 'center' }}>
+            <Swatch bg={colorRange[0]} value={min(total)} />
+            <Swatch bg={colorRange[3]} />
+            <Swatch bg={colorRange[5]} />
+            <Swatch bg={colorRange[7]} />
+            <Swatch bg={last(colorRange)} value={max(total)} />
+          </Flex>
+        </Grid>
+      </Container>
       <Container sx={{ my: [-2, null, -4, -5], fontFamily: 'heading' }}>
         <StateGraphic data={data} states={states} colorRange={colorRange} />
       </Container>

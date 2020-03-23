@@ -27,20 +27,12 @@ const offsets = {
   DC: [49, 21]
 }
 
-// prettier-ignore
-const colorRange = dark =>
-  dark
-    ? [ '#5e240d', '#6a290d', '#752f0d', '#7c3803', '#7e4e00', '#7e5c00',
-        '#7f6a00', '#7f7500', '#7d7f00', '#6f7f00', '#6a8000' ]
-    : [ '#b56c50', '#cd6644', '#e55934', '#f06529', '#f28b22', '#f2af23',
-        '#f2d323', '#f1e825', '#e5f127', '#d5f028', '#cff02b' ]
-
-const StatesGraphic = ({ data }) => {
+const StatesGraphic = ({ data, colorRange }) => {
   const { theme, colorMode } = useThemeUI()
   // http://www.colorbox.io/#steps=8#hue_start=17#hue_end=70#hue_curve=easeInOutSine#sat_start=28#sat_end=41#sat_curve=easeOutCubic#sat_rate=200#lum_start=71#lum_end=94#lum_curve=easeInExpo#lock_hex=e55934#minor_steps_map=0,30,40
   const colorScale = scaleQuantile()
     .domain(map(data, 'totalPC'))
-    .range(colorRange(colorMode === 'dark'))
+    .range(colorRange)
   return (
     <ComposableMap projection="geoAlbersUsa">
       <Geographies geography={geoUrl}>
