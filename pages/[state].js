@@ -17,12 +17,12 @@ import { alpha } from '@theme-ui/color'
 import { Twitter, Globe } from 'react-feather'
 import { getJSON } from '../lib/util'
 import loadJSON from 'load-json-file'
-import Error from 'next/error'
+// import Error from 'next/error'
 import MD from 'react-markdown'
 import { filter, find, orderBy, round } from 'lodash'
 
 export default ({ errorCode, state, daily = [], latest = {}, info = {} }) => {
-  if (errorCode) return <Error statusCode={errorCode} title="State not found" />
+  // if (errorCode) return <Error statusCode={errorCode} title="State not found" />
   const [colorMode] = useColorMode()
   const accessory = {
     bg: colorMode === 'dark' ? null : 'rgba(255, 255, 255, 0.75)',
@@ -162,7 +162,7 @@ export const getServerSideProps = async req => {
   state =
     find(states, ['code', state.toUpperCase()]) ||
     find(states, ['slug', state.toLowerCase()])
-  if (!state) return { props: { errorCode: 404 } }
+  // if (!state) return { props: { errorCode: 404 } }
 
   const { code } = state
   let daily = await getJSON(`https://covidtracking.com/api/states/daily`)
