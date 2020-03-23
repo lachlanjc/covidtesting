@@ -2,6 +2,8 @@ import { useState } from 'react'
 import Meta from '../components/meta'
 import Header from '../components/header'
 import StateGraphic from '../components/states-graphic'
+import Stat from '../components/stat'
+import StatChart from '../components/stat-chart'
 import StateList from '../components/state-list'
 import {
   Badge,
@@ -15,6 +17,7 @@ import {
   Text,
   useColorMode
 } from 'theme-ui'
+import commaNumber from 'comma-number'
 import { getJSON } from '../lib/util'
 import loadJSON from 'load-json-file'
 import { find, map, pick, min, max, round, last } from 'lodash'
@@ -63,11 +66,12 @@ const Reading = props => (
   />
 )
 
-export default ({ data = [], states = [] }) => {
+export default ({ data = [], states = [], daily = [], today = {} }) => {
   const [colorMode] = useColorMode()
   const colorRange = getColorRange(colorMode === 'dark')
   const total = map(data, 'totalPC')
   const [showValues, setShowValues] = useState(false)
+  const stat = key => commaNumber(today[key])
   return (
     <>
       <Meta />
@@ -129,9 +133,36 @@ export default ({ data = [], states = [] }) => {
           showValues={showValues}
         />
       </Container>
-      <Container
-        sx={{ maxWidth: [null, null, 'copyPlus'], pt: [3, 4], pb: [4, 5] }}
-      >
+      <Container variant="copy" sx={{ pt: [3, 4], pb: [4, 5] }}>
+        <Heading as="h2" variant="headline">
+          U.S. testing stats
+        </Heading>
+        <Grid
+          columns={[2, 3]}
+          sx={{
+            mb: [4, null, 5],
+            section: { position: 'relative', minHeight: 96 },
+            '.recharts-responsive-container': {
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0
+            }
+          }}
+        >
+          <section>
+            <StatChart data={daily} dataKey="total" color="orange" />
+            <Stat value={stat('total')} label="Total tests" />
+          </section>
+          <section>
+            <StatChart data={daily} dataKey="positive" color="red" />
+            <Stat value={stat('positive')} label="Positive tests" />
+          </section>
+          <Box as="section" sx={{ display: ['none', 'block'] }}>
+            <StatChart data={daily} dataKey="negative" color="muted" />
+            <Stat value={stat('negative')} label="Negative tests" />
+          </Box>
+        </Grid>
         <Heading as="h2" variant="headline">
           See full state details
         </Heading>
@@ -181,5 +212,7 @@ export const getServerSideProps = async () => {
     totalPC: total / (pop / 100000),
     positivePC: positive / (pop / 100000)
   }))
-  return { props: { data, states } }
+  let daily = await getJSON('https://covidtracking.com/api/us/daily')
+  const today = last(daily)
+  return { props: { data, states, daily, today } }
 }
