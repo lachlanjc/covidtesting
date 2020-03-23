@@ -17,10 +17,10 @@ import { getJSON } from '../lib/util'
 import loadJSON from 'load-json-file'
 import Error from 'next/error'
 import MD from 'react-markdown'
-import { map, find, orderBy, concat, kebabCase } from 'lodash'
+import { filter, find, orderBy } from 'lodash'
 
 export default ({ errorCode, state, daily = [], latest = {}, info = {} }) => {
-  if (errorCode) return <Error statusCode={errorCode} title="State not found" />
+  // if (errorCode) return <Error statusCode={errorCode} title="State not found" />
   const [colorMode] = useColorMode()
   const accessory = {
     bg: colorMode === 'dark' ? null : 'rgba(255, 255, 255, 0.75)',
@@ -103,21 +103,19 @@ export default ({ errorCode, state, daily = [], latest = {}, info = {} }) => {
   )
 }
 
-export const getServerSideProps = async ctx => {
+export const getServerSideProps = async req => {
   const states = await loadJSON('./public/states-full.json')
-  let { state } = ctx.query
+  let { state } = req.query
   state =
     find(states, ['code', state.toUpperCase()]) ||
     find(states, ['slug', state.toLowerCase()])
   if (!state) return { props: { errorCode: 404 } }
 
   const { code } = state
-  let daily = await getJSON(
-    `https://covidtracking.com/api/states/daily?state=${code}`
-  )
+  let daily = await getJSON(`https://covidtracking.com/api/states/daily`)
+  daily = filter(daily, { state: code })
   const latest = daily.length ? daily[0] : {}
-  const info = await getJSON(
-    `https://covidtracking.com/api/states/info?state=${code}`
-  )
+  let info = await getJSON(`https://covidtracking.com/api/states/info`)
+  info = filter(info, { state: code })
   return { props: { state, daily, latest, info } }
 }
