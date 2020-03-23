@@ -2,7 +2,15 @@ import Meta from '../components/meta'
 import Header from '../components/header'
 import StateGraphic from '../components/states-graphic'
 import StateList from '../components/state-list'
-import { Container, Heading, Text, Link } from 'theme-ui'
+import {
+  Badge,
+  Box,
+  Container,
+  Heading,
+  Link,
+  Text,
+  useColorMode
+} from 'theme-ui'
 import { getJSON } from '../lib/util'
 import loadJSON from 'load-json-file'
 import { find, map, pick } from 'lodash'
@@ -11,10 +19,19 @@ export default ({ data = [], states = [] }) => {
   return (
     <>
       <Meta />
-      <Header
-        title="U.S. COVID-19 Testing"
-        desc="Across the country, inadequate COVID-19 testing is hampering our response to the pandemic."
-      >
+      <Header title="U.S. COVID-19 Testing">
+        <Text sx={{ color: 'text', fontSize: [1, 2], my: [2, 3] }}>
+          There’s a{' '}
+          <Badge
+            as="strong"
+            sx={{ fontSize: 'inherit', fontFamily: 'heading', bg: 'primary' }}
+          >
+            critical shortage of testing
+          </Badge>{' '}
+          across the country, so we can’t know how many cases there are. This
+          site shows the number of tests each state has performed relative to
+          their populations.
+        </Text>
         <Text sx={{ color: 'secondary', mt: 3 }}>
           All data from{' '}
           <Link href="https://covidtracking.com/">
