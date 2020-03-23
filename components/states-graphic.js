@@ -27,11 +27,10 @@ const offsets = {
   DC: [49, 21]
 }
 
-const StatesGraphic = ({ data, colorRange, showValues = false }) => {
-  const { theme, colorMode } = useThemeUI()
-  // http://www.colorbox.io/#steps=8#hue_start=17#hue_end=70#hue_curve=easeInOutSine#sat_start=28#sat_end=41#sat_curve=easeOutCubic#sat_rate=200#lum_start=71#lum_end=94#lum_curve=easeInExpo#lock_hex=e55934#minor_steps_map=0,30,40
+const StatesGraphic = ({ data, colorRange, showValues = false, dataKey }) => {
+  const { theme } = useThemeUI()
   const colorScale = scaleQuantile()
-    .domain(map(data, 'totalPC'))
+    .domain(map(data, dataKey))
     .range(colorRange)
   return (
     <ComposableMap projection="geoAlbersUsa">
@@ -45,7 +44,7 @@ const StatesGraphic = ({ data, colorRange, showValues = false }) => {
                 <Geography
                   key={geo.rsmKey}
                   geography={geo}
-                  fill={cur ? colorScale(cur?.totalPC) : theme.colors.sheet}
+                  fill={cur ? colorScale(cur[dataKey]) : theme.colors.sheet}
                   onClick={() => Router.push(`/${kebabCase(name)}`)}
                   style={{ cursor: 'pointer' }}
                 />
@@ -56,7 +55,7 @@ const StatesGraphic = ({ data, colorRange, showValues = false }) => {
               const cur = find(allStates, { name: geo.properties?.name })
               if (!cur) return
               const stateData = find(data, { name: geo.properties?.name })
-              const label = showValues ? round(stateData.totalPC) : cur.abbrev
+              const label = showValues ? round(stateData[dataKey]) : cur.abbrev
               return (
                 <g key={geo.rsmKey + '-flag'}>
                   {cur &&

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Meta from '../components/meta'
 import Header from '../components/header'
 import StateGraphic from '../components/states-graphic'
@@ -8,6 +8,7 @@ import StateList from '../components/state-list'
 import {
   Badge,
   Box,
+  Button,
   Container,
   Flex,
   Grid,
@@ -47,7 +48,7 @@ const Swatch = ({ bg, value }) => (
 )
 
 const Legend = ({ colorRange, total }) => (
-  <Flex sx={{ alignItems: 'center' }}>
+  <Flex sx={{ alignItems: 'center', justifyContent: 'center' }}>
     <Swatch bg={colorRange[0]} value={min(total)} />
     <Swatch bg={colorRange[3]} />
     <Swatch bg={colorRange[5]} />
@@ -116,11 +117,14 @@ const Readings = () => (
   </Grid>
 )
 
-export default ({ data = [], states = [], daily = [], today = {} }) => {
+export default ({ data = [], states = [], today = {} }) => {
+  const [showValues, setShowValues] = useState(false)
+  const [showPositives, setShowPositives] = useState(false)
   const [colorMode] = useColorMode()
   const colorRange = getColorRange(colorMode === 'dark')
-  const total = map(data, 'totalPC')
-  const [showValues, setShowValues] = useState(false)
+  const dataKey = showPositives ? 'positivePC' : 'totalPC'
+  const [total, setTotal] = useState(map(data, dataKey))
+  useEffect(() => setTotal(map(data, dataKey)), [showPositives])
   return (
     <>
       <Meta />
@@ -148,7 +152,7 @@ export default ({ data = [], states = [], daily = [], today = {} }) => {
       <Heading
         as="h2"
         variant="headline"
-        sx={{ textAlign: [null, 'center'], px: 3 }}
+        sx={{ textAlign: [null, 'center'], px: 3, mb: [3, 4] }}
       >
         Tests per capita
       </Heading>
@@ -164,15 +168,33 @@ export default ({ data = [], states = [], daily = [], today = {} }) => {
       >
         <Grid
           as="aside"
-          columns={[null, null, '2fr 1fr 1fr']}
+          columns={[null, null, 'auto auto auto']}
           gap={3}
           sx={{
             label: { display: 'flex', alignItems: 'center' },
             input: { flexShrink: 'none', mr: 2 }
           }}
         >
+          <Flex sx={{ alignItems: 'center', button: { px: 2, py: 0 } }}>
+            Showing
+            <Button
+              variant={!showPositives ? 'primary' : 'outline'}
+              onClick={() => setShowPositives(false)}
+              sx={{ mx: 2 }}
+            >
+              All
+            </Button>
+            <Button
+              variant={showPositives ? 'primary' : 'outline'}
+              onClick={() => setShowPositives(true)}
+              sx={{ mr: 2 }}
+            >
+              Positive
+            </Button>
+            tests
+          </Flex>
           <Legend colorRange={colorRange} total={total} />
-          <Label>
+          <Label sx={{ gridRow: [2, 'unset'] }}>
             <input
               type="checkbox"
               name="showValues"
@@ -187,6 +209,7 @@ export default ({ data = [], states = [], daily = [], today = {} }) => {
           states={states}
           colorRange={colorRange}
           showValues={showValues}
+          dataKey={dataKey}
         />
       </Container>
       <Container variant="copy" sx={{ pt: [3, 0], pb: [4, 5] }}>
@@ -230,5 +253,5 @@ export const getServerSideProps = async () => {
   }))
   let daily = await getJSON('https://covidtracking.com/api/us/daily')
   const today = last(daily)
-  return { props: { data, states, daily, today } }
+  return { props: { data, states, today } }
 }
