@@ -12,6 +12,7 @@ import {
   Heading,
   useColorMode
 } from 'theme-ui'
+import { alpha } from '@theme-ui/color'
 import { Twitter, Globe } from 'react-feather'
 import { getJSON } from '../lib/util'
 import loadJSON from 'load-json-file'
@@ -87,7 +88,27 @@ export default ({ errorCode, state, daily = [], latest = {}, info = {} }) => {
               <Card
                 as={BaseStyles}
                 variant="sunken"
-                sx={{ padding: [3, 3], textAlign: 'left', p: { my: 0 } }}
+                sx={{
+                  padding: [3, 3],
+                  textAlign: 'left',
+                  maxHeight: '16em',
+                  overflowY: 'auto',
+                  position: 'relative',
+                  ':after': {
+                    content: '""',
+                    position: 'absolute',
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    display: 'block',
+                    height: theme => theme.space[3],
+                    backgroundImage: theme =>
+                      `linear-gradient(
+                        ${alpha(theme.colors.sunken, 0)},
+                        ${theme.colors.sunken})`
+                  },
+                  p: { my: 0 }
+                }}
               >
                 <Heading as="h3" variant="subheadline" sx={{ mb: 2 }}>
                   Data notes

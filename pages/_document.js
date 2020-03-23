@@ -12,6 +12,7 @@ export default class extends Document {
       <html lang="en">
         <Head>
           <link rel="stylesheet" href="https://predictcovid.com/fonts.css" />
+          <style>{`:root { supported-color-schemes: light dark; }`}</style>
         </Head>
         <body>
           <InitializeColorMode />
