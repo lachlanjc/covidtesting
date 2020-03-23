@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Meta from '../components/meta'
 import Header from '../components/header'
 import StateGraphic from '../components/states-graphic'
@@ -10,6 +10,7 @@ import {
   Flex,
   Grid,
   Heading,
+  Label,
   Link,
   Text,
   useColorMode
@@ -42,6 +43,7 @@ export default ({ data = [], states = [] }) => {
   const [colorMode] = useColorMode()
   const colorRange = getColorRange(colorMode === 'dark')
   const total = map(data, 'totalPC')
+  const [showValues, setShowValues] = useState(false)
   return (
     <>
       <Meta />
@@ -54,7 +56,7 @@ export default ({ data = [], states = [] }) => {
           >
             critical shortage of testing
           </Badge>{' '}
-          across the country, so we can’t know how many cases there are. This
+          across the country, so we can’t know how many cases states have. This
           site shows the number of tests each state has performed relative to
           their populations.
         </Text>
@@ -78,16 +80,32 @@ export default ({ data = [], states = [] }) => {
             <Swatch bg={colorRange[7]} />
             <Swatch bg={last(colorRange)} value={max(total)} />
           </Flex>
+          <Label
+            sx={{ display: 'flex', alignItems: 'center', input: { mr: 2 } }}
+          >
+            <input
+              type="checkbox"
+              name="showValues"
+              checked={showValues}
+              onChange={e => setShowValues(e.target.checked)}
+            />
+            Show values on map
+          </Label>
         </Grid>
       </Container>
-      <Container sx={{ my: [-2, null, -4, -5], fontFamily: 'heading' }}>
-        <StateGraphic data={data} states={states} colorRange={colorRange} />
+      <Container sx={{ fontFamily: 'heading' }}>
+        <StateGraphic
+          data={data}
+          states={states}
+          colorRange={colorRange}
+          showValues={showValues}
+        />
       </Container>
       <Container
         sx={{ maxWidth: [null, null, 'copyPlus'], pt: [3, 4], pb: [4, 5] }}
       >
         <Heading as="h2" variant="headline">
-          Jump to a state
+          See full state details
         </Heading>
         <StateList />
       </Container>
