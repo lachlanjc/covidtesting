@@ -4,6 +4,7 @@ import NextApp from 'next/app'
 import { ThemeProvider } from 'theme-ui'
 import theme from '../lib/theme'
 import NProgress from '../components/nprogress'
+import Footer from '../components/footer'
 
 export default class App extends NextApp {
   render() {
@@ -12,6 +13,7 @@ export default class App extends NextApp {
       <ThemeProvider theme={theme}>
         <NProgress color={theme.colors.primary} />
         <Component {...pageProps} />
+        <Footer />
       </ThemeProvider>
     )
   }
