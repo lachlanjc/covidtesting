@@ -34,72 +34,78 @@ const TopStates = ({ data }) => {
       tests
     </Controls>,
     <Box as="table" key="table">
-      <Grid
-        as="thead"
-        gap={[3, 4]}
-        columns={cols}
-        sx={{
-          alignItems: 'end',
-          fontFamily: 'heading',
-          lineHeight: 'title',
-          textAlign: 'right',
-          mb: 2
-        }}
-      >
-        <th></th>
-        <Text as="th" sx={{ color: 'red' }}>
-          Positive {dataLabel}
-        </Text>
-        <Text as="th" sx={{ color: 'muted' }}>
-          Total {dataLabel}
-        </Text>
-        <th></th>
-      </Grid>
-      {take(ranked, limit).map(state => (
+      <thead>
         <Grid
-          key={state.id}
           as="tr"
           gap={[3, 4]}
           columns={cols}
-          sx={{ alignItems: 'center', textAlign: 'right', mb: 1 }}
+          sx={{
+            alignItems: 'end',
+            fontFamily: 'heading',
+            lineHeight: 'title',
+            textAlign: 'right',
+            mb: 2
+          }}
         >
-          <Text as="tc" sx={{ fontFamily: 'heading' }}>
-            <Text as="span" sx={{ display: ['block', 'none'] }}>
-              {state.id}
-            </Text>
-            <Text as="span" sx={{ display: ['none', 'block'] }}>
-              {state.name}
-            </Text>
+          <Text as="th" sx={{ opacity: 0 }}>
+            State
           </Text>
-          <Text as="tc" sx={{ color: 'red' }}>
-            {dataFunc(state[dataKey[0]])}
+          <Text as="th" sx={{ color: 'red' }}>
+            Positive {dataLabel}
           </Text>
-          <Text as="tc" sx={{ color: 'muted' }}>
-            {dataFunc(state[dataKey[1]])}
+          <Text as="th" sx={{ color: 'muted' }}>
+            Total {dataLabel}
           </Text>
-          <tc>
-            <Progress
-              max={1}
-              value={state[dataKey[0]] / state[dataKey[1]]}
-              sx={{
-                height: 8,
-                bg: colorMode === 'dark' ? 'slate' : 'sunken',
-                minWidth: 12
-              }}
-              style={{ width: `${(state[dataKey[1]] / largest) * 100}%` }}
-            />
-          </tc>
+          <th></th>
         </Grid>
-      ))}
-      <Box sx={{ textAlign: 'center', mt: 3 }}>
-        <Button
-          variant="outline"
-          sx={{ py: 1, px: 2 }}
-          onClick={() => setLimit(l => (l === 10 ? data.length : 10))}
-        >
-          {limit === 10 ? 'Show all states' : 'Hide states'}
-        </Button>
-      </Box>
+      </thead>
+      <tbody>
+        {take(ranked, limit).map(state => (
+          <Grid
+            key={state.id}
+            as="tr"
+            gap={[3, 4]}
+            columns={cols}
+            sx={{ alignItems: 'center', textAlign: 'right', mb: 1 }}
+          >
+            <Text as="td" sx={{ fontFamily: 'heading' }}>
+              <Text as="span" sx={{ display: ['block', 'none'] }}>
+                {state.id}
+              </Text>
+              <Text as="span" sx={{ display: ['none', 'block'] }}>
+                {state.name}
+              </Text>
+            </Text>
+            <Text as="td" sx={{ color: 'red' }}>
+              {dataFunc(state[dataKey[0]])}
+            </Text>
+            <Text as="td" sx={{ color: 'muted' }}>
+              {dataFunc(state[dataKey[1]])}
+            </Text>
+            <td>
+              <Progress
+                max={1}
+                value={state[dataKey[0]] / state[dataKey[1]]}
+                sx={{
+                  height: 8,
+                  bg: colorMode === 'dark' ? 'slate' : 'sunken',
+                  minWidth: 12
+                }}
+                style={{ width: `${(state[dataKey[1]] / largest) * 100}%` }}
+              />
+            </td>
+          </Grid>
+        ))}
+      </tbody>
+    </Box>,
+    <Box key="button" sx={{ textAlign: 'center', mt: 3 }}>
+      <Button
+        variant="outline"
+        sx={{ py: 1, px: 2 }}
+        onClick={() => setLimit(l => (l === 10 ? data.length : 10))}
+      >
+        {limit === 10 ? 'Show all states' : 'Hide states'}
+      </Button>
     </Box>
   ]
 }
