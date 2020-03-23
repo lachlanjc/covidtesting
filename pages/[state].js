@@ -99,20 +99,6 @@ export default ({ errorCode, state, daily = [], latest = {}, info = {} }) => {
                   textAlign: 'left',
                   maxHeight: '16em',
                   overflowY: 'auto',
-                  position: 'relative',
-                  ':after': {
-                    content: '""',
-                    position: 'absolute',
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    display: 'block',
-                    height: theme => theme.space[3],
-                    backgroundImage: theme =>
-                      `linear-gradient(
-                        ${alpha(theme.colors.sunken, 0)},
-                        ${theme.colors.sunken})`
-                  },
                   p: { my: 0 }
                 }}
               >
