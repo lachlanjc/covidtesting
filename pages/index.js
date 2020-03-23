@@ -117,6 +117,22 @@ const Readings = () => (
   </Grid>
 )
 
+const Controls = props => (
+  <Flex
+    {...props}
+    sx={{
+      alignItems: 'center',
+      button: {
+        px: 2,
+        py: 0,
+        ':first-of-type': { mx: 2 },
+        ':last-of-type': { mr: 2 }
+      },
+      ...props.sx
+    }}
+  />
+)
+
 export default ({ data = [], states = [], today = {} }) => {
   const [showValues, setShowValues] = useState(false)
   const [showPositives, setShowPositives] = useState(false)
@@ -166,43 +182,40 @@ export default ({ data = [], states = [], today = {} }) => {
           }
         }}
       >
-        <Grid
-          as="aside"
-          columns={[null, null, 'auto auto auto']}
-          gap={3}
-          sx={{
-            label: { display: 'flex', alignItems: 'center' },
-            input: { flexShrink: 'none', mr: 2 }
-          }}
-        >
-          <Flex sx={{ alignItems: 'center', button: { px: 2, py: 0 } }}>
-            Showing
+        <Grid as="aside" columns={[null, null, 'repeat(3, auto)']} gap={3}>
+          <Controls>
+            Show
             <Button
               variant={!showPositives ? 'primary' : 'outline'}
               onClick={() => setShowPositives(false)}
-              sx={{ mx: 2 }}
             >
               All
             </Button>
             <Button
               variant={showPositives ? 'primary' : 'outline'}
               onClick={() => setShowPositives(true)}
-              sx={{ mr: 2 }}
             >
               Positive
             </Button>
             tests
-          </Flex>
+          </Controls>
           <Legend colorRange={colorRange} total={total} />
-          <Label sx={{ gridRow: [2, 'unset'] }}>
-            <input
-              type="checkbox"
-              name="showValues"
-              checked={showValues}
-              onChange={e => setShowValues(e.target.checked)}
-            />
-            Show values on map
-          </Label>
+          <Controls sx={{ gridRow: [2, 'unset'] }}>
+            Show
+            <Button
+              variant={!showValues ? 'primary' : 'outline'}
+              onClick={() => setShowValues(false)}
+            >
+              States
+            </Button>
+            <Button
+              variant={showValues ? 'primary' : 'outline'}
+              onClick={() => setShowValues(true)}
+            >
+              Values
+            </Button>
+            on map
+          </Controls>
         </Grid>
         <StateGraphic
           data={data}
