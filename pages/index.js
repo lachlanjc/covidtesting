@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import Meta from '../components/meta'
 import Header from '../components/header'
-import Controls from '../components/controls'
+import Controls, { Control } from '../components/controls'
 import StateGraphic from '../components/states-graphic'
 import Stat from '../components/stat'
 import TopStates from '../components/top-states'
@@ -125,35 +125,19 @@ export default ({ data = [], states = [], today = {} }) => {
         <Grid as="aside" columns={[null, null, 'repeat(3, auto)']} gap={3}>
           <Controls>
             Show
-            <Button
-              variant={!showPositives ? 'primary' : 'outline'}
-              onClick={() => setShowPositives(false)}
-            >
-              All
-            </Button>
-            <Button
-              variant={showPositives ? 'primary' : 'outline'}
-              onClick={() => setShowPositives(true)}
-            >
-              Positive
-            </Button>
+            <Control on={!showPositives} set={setShowPositives} label="All" />
+            <Control
+              on={showPositives}
+              set={setShowPositives}
+              label="Positive"
+            />
             tests
           </Controls>
           <Legend colorRange={colorRange} total={total} />
           <Controls sx={{ gridRow: [2, 'unset'] }}>
             Show
-            <Button
-              variant={!showValues ? 'primary' : 'outline'}
-              onClick={() => setShowValues(false)}
-            >
-              States
-            </Button>
-            <Button
-              variant={showValues ? 'primary' : 'outline'}
-              onClick={() => setShowValues(true)}
-            >
-              Values
-            </Button>
+            <Control on={!showValues} set={setShowValues} label="States" />
+            <Control on={showValues} set={setShowValues} label="Values" />
             on map
           </Controls>
         </Grid>

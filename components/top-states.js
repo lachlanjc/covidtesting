@@ -1,7 +1,7 @@
 import { useState, useLayoutEffect } from 'react'
 import { Box, Button, Text, Grid, Progress, useColorMode } from 'theme-ui'
 import { map, max, orderBy, reverse, round, take } from 'lodash'
-import Controls from './controls'
+import Controls, { Control } from './controls'
 import commaNumber from 'comma-number'
 
 const cols = ['1fr 2fr 2fr 3fr', '2fr 1fr 1fr 5fr']
@@ -21,59 +21,31 @@ const TopStates = ({ data }) => {
   let ranked = orderBy(data, dataKey[0])
   if (!reversed) ranked = reverse(ranked)
   const [largest, setLargest] = useState(max(map(data, dataKey[1])))
-  useLayoutEffect(() => setLargest(max(map(data, dataKey[1]))))
+  if (typeof document !== 'undefined') {
+    useLayoutEffect(() => setLargest(max(map(data, dataKey[1]))))
+  }
 
   return [
-    <Grid columns={[null, 2]} gap={2} as="aside" key="controls" sx={{ mb: 3 }}>
-      <Controls>
-        Show
-        <Button
-          variant={!pc ? 'primary' : 'outline'}
-          onClick={() => setPC(false)}
-        >
-          All
-        </Button>
-        <Button
-          variant={pc ? 'primary' : 'outline'}
-          onClick={() => setPC(true)}
-        >
-          Per capita
-        </Button>
-        tests
-      </Controls>
-      <Controls>
-        Sort by most
-        <Button
-          variant={!positive ? 'primary' : 'outline'}
-          onClick={() => setPositive(false)}
-        >
-          Total
-        </Button>
-        <Button
-          variant={positive ? 'primary' : 'outline'}
-          onClick={() => setPositive(true)}
-        >
-          Positive
-        </Button>
-        tests
-      </Controls>
-      <Controls>
-        Sort by
-        <Button
-          variant={!reversed ? 'primary' : 'outline'}
-          onClick={() => setReversed(false)}
-        >
-          Most
-        </Button>
-        <Button
-          variant={reversed ? 'primary' : 'outline'}
-          onClick={() => setReversed(true)}
-        >
-          Least
-        </Button>
-        testing
-      </Controls>
-    </Grid>,
+    <Controls
+      as="aside"
+      key="controls"
+      sx={{
+        flexWrap: 'wrap',
+        'span + button': { mx: 2 },
+        'button + button': { mr: 2 },
+        'span, button': { mb: 3 },
+        mb: 3
+      }}
+    >
+      <span>Show</span>
+      <Control on={!positive} set={setPositive} label="All" />
+      <Control on={positive} set={setPositive} label="Positive" />
+      <span>tests sorted by the</span>
+      <Control on={!reversed} set={setReversed} label="Most" color="green" />
+      <Control on={reversed} set={setReversed} label="Least" color="green" />
+      <Control on={!pc} set={setPC} label="In total" color="blue" />
+      <Control on={pc} set={setPC} label="Per capita" color="blue" />
+    </Controls>,
     <Box as="table" key="table">
       <thead>
         <Grid
