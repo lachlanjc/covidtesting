@@ -63,7 +63,7 @@ export default ({ errorCode, state, daily = [], latest = {}, info = {} }) => {
           )}
         </Flex>
       </Header>
-      <Container as="article" sx={{ maxWidth: 'copyPlus', pb: [4, 5, 6] }}>
+      <Container as="article" sx={{ maxWidth: 'copyPlus', pb: [4, 5] }}>
         <Grid
           columns={[null, null, '3fr 2fr']}
           gap={[3, 4]}
@@ -145,7 +145,7 @@ export default ({ errorCode, state, daily = [], latest = {}, info = {} }) => {
           </div>
         </Grid>
         <Text sx={{ color: 'secondary', mt: 3 }}>
-          All data from{' '}
+          Data from{' '}
           <Link href="https://covidtracking.com/">
             The COVID Tracking Project
           </Link>
