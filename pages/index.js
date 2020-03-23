@@ -32,7 +32,6 @@ const getColorRange = dark =>
     : [ '#b56c50', '#cd6644', '#e55934', '#f06529', '#f28b22', '#f2af23',
         '#f2d323', '#f1e825', '#e5f127', '#d5f028', '#cff02b' ]
 // http://www.colorbox.io/#steps=8#hue_start=17#hue_end=70#hue_curve=easeInOutSine#sat_start=28#sat_end=41#sat_curve=easeOutCubic#sat_rate=200#lum_start=71#lum_end=94#lum_curve=easeInExpo#lock_hex=e55934#minor_steps_map=0,30,40
-// http://www.colorbox.io/#steps=8#hue_start=17#hue_end=70#hue_curve=easeInOutSine#sat_start=43#sat_end=77#sat_curve=easeOutQuad#sat_rate=200#lum_start=37#lum_end=50#lum_curve=easeInExpo#minor_steps_map=0,30,40
 
 const Swatch = ({ bg, value }) => (
   <>
