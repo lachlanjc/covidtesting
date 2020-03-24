@@ -44,7 +44,7 @@ export default ({
         <Heading
           as="h1"
           variant="title"
-          sx={{ color: 'primary' }}
+          sx={{ color: 'primary', fontSize: bgImg ? [4, 5, 6] : [3, 4] }}
           children={title}
         />
         {desc && (

@@ -113,12 +113,9 @@ export default ({ material = false }) => {
           <BackButton text="All States" />
         ) : (
           <Link href="/" passHref>
-            <Text
-              as="a"
-              sx={{ color: 'red', flex: '1 1 auto', fontFamily: 'heading' }}
-            >
-              COVID-19 Testing
-            </Text>
+            <NavLink as="a" sx={{ ...linkEffect, px: 2, py: 1, ml: -2 }}>
+              Testing Gap
+            </NavLink>
           </Link>
         )}
         <NavLink

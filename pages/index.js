@@ -10,7 +10,7 @@ import Readings from '../components/readings'
 import {
   Badge,
   Box,
-  Button,
+  Card,
   Container,
   Flex,
   Grid,
@@ -61,14 +61,11 @@ const Legend = ({ colorRange, total }) => (
   </Flex>
 )
 
+const testPop = today => round((today.total / 327200000) * 100, 3)
 const Stats = ({ today }) => (
   <Grid columns={[2, 3]} sx={{ mb: [3, null, 4] }}>
     <Stat value={commaNumber(today.total)} label="Total U.S. tests" />
-    <Stat
-      value={round((today.total / 327200000) * 100, 3)}
-      unit="%"
-      label="Tests / U.S. population"
-    />
+    <Stat value={testPop(today)} unit="%" label="Tests / U.S. population" />
     <Stat
       value={round((today.positive / today.total) * 100, 1)}
       unit="%"
@@ -89,19 +86,72 @@ export default ({ data = [], states = [], today = {} }) => {
   return (
     <>
       <Meta />
-      <Header title="U.S. COVID-19 Testing">
+      <Header
+        title={
+          <>
+            The U.S. COVID-19{' '}
+            <Badge
+              as="strong"
+              sx={{
+                fontSize: 'inherit',
+                borderRadius: 'default',
+                bg: 'primary',
+                px: 2,
+                py: 1
+              }}
+            >
+              Testing Gap
+            </Badge>
+          </>
+        }
+      >
         <Text sx={{ color: 'text', fontSize: [1, 2], my: [2, 3] }}>
-          There’s a{' '}
-          <Badge
-            as="strong"
-            sx={{ fontSize: 'inherit', fontFamily: 'heading', bg: 'primary' }}
-          >
-            critical shortage of testing
-          </Badge>{' '}
-          across the country, so we can’t know how many cases states have. This
-          site shows the number of tests each state has performed relative to
-          their population.
+          Critical lack of access to COVID-19 testing across the country
+          prevents us from knowing exactly how many people are infected. This
+          isn’t news.
         </Text>
+        <Text sx={{ color: 'text', fontSize: [1, 2], my: [2, 3] }}>
+          But depending on your state, you have very different access to
+          testing. This site shows each state’s testing relative to their
+          population.
+        </Text>
+        <details>
+          <Text as="summary" sx={{ fontFamily: 'heading' }}>
+            Top takeaways
+          </Text>
+          <Card
+            as="ol"
+            variant="sunken"
+            sx={{
+              color: 'text',
+              fontSize: [1],
+              my: [2, 3],
+              py: [2, 3],
+              pl: [4, 4],
+              mx: [-2, -3, -4],
+              li: { maxWidth: 'copy' },
+              'li + li': { mt: [1, 2] }
+            }}
+          >
+            <Text as="li">
+              Poorer states lack testing: nearly all Southern & Midwestern
+              states have done &lt;75&nbsp;tests per 100K people, while
+              Northeastern states range 120-400 tests per 100K.
+            </Text>
+            <Text as="li">
+              Washington (443/100K) & New York (398/100K) have the most testing
+              per capita, Ohio has the least (4/100K).
+            </Text>
+            <Text as="li">
+              85% of tests in New Jersey return positive, vs 0.03% in West
+              Virginia. This may be due to different requirements for testing.
+            </Text>
+            <Text as="li">
+              No states have nearly enough testing yet—&lt;{testPop(today)}% of
+              Americans have been tested once.
+            </Text>
+          </Card>
+        </details>
         <Text sx={{ color: 'secondary', mt: 3 }}>
           All data from{' '}
           <Link href="https://covidtracking.com/">

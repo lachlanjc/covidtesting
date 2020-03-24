@@ -1,8 +1,8 @@
 import Head from 'next/head'
 
 export default ({
-  title = 'COVID-19 Testing in the U.S.',
-  description = 'Understand the critical shortage of COVID-19 testing across the country with an interactive, state-by-state data visualization. Updated daily.',
+  title = 'The COVID-19 Testing Gap in the U.S.',
+  description = 'Understand the critical shortage of COVID-19 testing across the country & the disparity of access between states with an interactive, state-by-state data visualization. Updated daily.',
   image = 'https://testing.predictcovid.com/card.png',
   url = 'https://testing.predictcovid.com/'
 }) => (
