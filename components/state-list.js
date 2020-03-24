@@ -44,7 +44,12 @@ const StateList = () => {
     />,
     <Flex sx={{ flexWrap: 'wrap', mx: -2, mt: 3 }} key="list">
       {list.map(state => (
-        <Link href={`/${kebabCase(state.name)}`} key={state.abbrev} passHref>
+        <Link
+          href={`/${kebabCase(state.name)}`}
+          key={state.abbrev}
+          prefetch={false}
+          passHref
+        >
           <A
             children={state.name}
             sx={{
