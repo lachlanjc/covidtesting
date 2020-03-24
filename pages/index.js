@@ -22,7 +22,7 @@ import {
 import commaNumber from 'comma-number'
 import { getJSON } from '../lib/util'
 import loadJSON from 'load-json-file'
-import { find, map, pick, min, max, round, last } from 'lodash'
+import { find, map, pick, min, max, round, orderBy, last } from 'lodash'
 
 // prettier-ignore
 const getColorRange = dark =>
@@ -194,6 +194,7 @@ export const getStaticProps = async () => {
     positivePC: positive / (pop / 100000)
   }))
   let daily = await getJSON('https://covidtracking.com/api/us/daily')
+  daily = orderBy(daily, 'date')
   const today = last(daily)
   return { props: { data, states, today } }
 }
