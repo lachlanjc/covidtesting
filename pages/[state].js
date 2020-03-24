@@ -141,10 +141,17 @@ export default ({ state, daily = [], latest = {}, info = {} }) => {
             </Grid>
           </div>
         </Grid>
-        <Text sx={{ color: 'secondary', mt: 3 }}>
+        <Text sx={{ color: 'secondary', mt: 3, mb: 1 }}>
           Data from{' '}
           <Link href="https://covidtracking.com/">
             The COVID Tracking Project
+          </Link>
+          .
+        </Text>
+        <Text sx={{ color: 'secondary' }}>
+          Image from{' '}
+          <Link href="https://civilserviceusa.github.io/us-states/">
+            CivilServiceUSA
           </Link>
           .
         </Text>
