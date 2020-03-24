@@ -33,26 +33,31 @@ const getColorRange = dark =>
         '#f2d323', '#f1e825', '#e5f127', '#d5f028', '#cff02b' ]
 // http://www.colorbox.io/#steps=8#hue_start=17#hue_end=70#hue_curve=easeInOutSine#sat_start=28#sat_end=41#sat_curve=easeOutCubic#sat_rate=200#lum_start=71#lum_end=94#lum_curve=easeInExpo#lock_hex=e55934#minor_steps_map=0,30,40
 
-const Swatch = ({ bg, value }) => (
+const Swatch = ({ bg, value, label }) => (
   <>
     <Box
       sx={{ display: 'inline-block', p: 3, bg, borderRadius: 'default', mr: 2 }}
     />
     {value && (
-      <Text as="span" sx={{ color: 'text', mr: 4 }}>
-        {round(value)}/100k
-      </Text>
+      <Box sx={{ lineHeight: 'title', mr: 4 }}>
+        <Text as="span" sx={{ color: 'text', display: 'block' }}>
+          {round(value)}/100k
+        </Text>
+        <Text as="span" sx={{ color: 'muted', fontSize: 0 }}>
+          {label}
+        </Text>
+      </Box>
     )}
   </>
 )
 
 const Legend = ({ colorRange, total }) => (
   <Flex sx={{ alignItems: 'center', justifyContent: 'center' }}>
-    <Swatch bg={colorRange[0]} value={min(total)} />
+    <Swatch bg={colorRange[0]} value={min(total)} label="least" />
     <Swatch bg={colorRange[3]} />
     <Swatch bg={colorRange[5]} />
     <Swatch bg={colorRange[7]} />
-    <Swatch bg={last(colorRange)} value={max(total)} />
+    <Swatch bg={last(colorRange)} value={max(total)} label="most" />
   </Flex>
 )
 
