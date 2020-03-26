@@ -13,16 +13,16 @@ const TopStates = ({ data }) => {
   const [limit, setLimit] = useState(10)
   const [colorMode] = useColorMode()
 
-  let dataKey = pc ? ['positivePC', 'totalPC'] : ['positive', 'total']
-  if (positive) dataKey = reverse(dataKey)
+  const dataKey = pc ? ['positivePC', 'totalPC'] : ['positive', 'total']
+  const chooseDataKey = positive ? dataKey[0] : dataKey[1]
   const dataLabel = pc ? '/100k' : 'tests'
   const dataFunc = pc ? n => round(n, 1) : commaNumber
 
   let ranked = orderBy(data, dataKey[0])
   if (!reversed) ranked = reverse(ranked)
-  const [largest, setLargest] = useState(max(map(data, dataKey[1])))
+  const [largest, setLargest] = useState(max(map(data, chooseDataKey)))
   if (typeof document !== 'undefined') {
-    useLayoutEffect(() => setLargest(max(map(data, dataKey[1]))))
+    useLayoutEffect(() => setLargest(max(map(data, chooseDataKey))))
   }
 
   return [
@@ -98,13 +98,13 @@ const TopStates = ({ data }) => {
             <td>
               <Progress
                 max={1}
-                value={state[dataKey[0]] / state[dataKey[1]]}
+                value={state[chooseDataKey] / state[dataKey[1]]}
                 sx={{
                   height: 8,
                   bg: colorMode === 'dark' ? 'slate' : 'sunken',
                   minWidth: 12
                 }}
-                style={{ width: `${(state[dataKey[1]] / largest) * 100}%` }}
+                style={{ width: `${(state[chooseDataKey] / largest) * 100}%` }}
               />
             </td>
           </Grid>
