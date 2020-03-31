@@ -17,7 +17,7 @@
     "isomorphic-unfetch": "^3.0.0",
     "load-json-file": "^6.2.0",
     "lodash": "^4.17.15",
-    "next": "^9.3.1",
+    "next": "^9.3.2",
     "nprogress": "^0.2.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
