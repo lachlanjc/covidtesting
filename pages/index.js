@@ -24,6 +24,9 @@ import { getJSON } from '../lib/util'
 import loadJSON from 'load-json-file'
 import { find, map, pick, min, max, round, orderBy, last } from 'lodash'
 
+const dateToday = (today = '20200506') =>
+  `${today.substring(4, 6).replace(/^0/, '')}/${today.substring(6, 8)}`
+
 // prettier-ignore
 const getColorRange = dark =>
   dark
@@ -115,6 +118,7 @@ export default ({ data = [], states = [], today = {} }) => {
           testing. This site shows each state’s testing relative to their
           population.
         </Text>
+	{/*
         <details>
           <Text as="summary" sx={{ fontFamily: 'heading' }}>
             Top takeaways
@@ -152,12 +156,13 @@ export default ({ data = [], states = [], today = {} }) => {
             </Text>
           </Card>
         </details>
+	*/}
         <Text sx={{ color: 'secondary', mt: 3 }}>
           All data from{' '}
           <Link href="https://covidtracking.com/">
             The COVID Tracking Project
           </Link>
-          .
+          . Updated {dateToday(today.date.toString())}.
         </Text>
       </Header>
       <Heading
