@@ -246,5 +246,5 @@ export const getStaticProps = async () => {
   let daily = await getJSON('https://covidtracking.com/api/us/daily')
   daily = orderBy(daily, 'date')
   const today = last(daily)
-  return { props: { data, states, today } }
+  return { props: { data, states, today }, unstable_revalidate: 4 }
 }

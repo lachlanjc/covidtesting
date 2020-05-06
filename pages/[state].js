@@ -179,5 +179,5 @@ export const getStaticProps = async ({ params }) => {
   const latest = daily.length ? daily[0] : {}
   let info = await getJSON(`https://covidtracking.com/api/states/info`)
   info = find(info, { state: code })
-  return { props: { state, daily, latest, info } }
+  return { props: { state, daily, latest, info }, unstable_revalidate: 4 }
 }
