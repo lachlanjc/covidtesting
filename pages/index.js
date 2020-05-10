@@ -21,7 +21,6 @@ import {
 } from 'theme-ui'
 import commaNumber from 'comma-number'
 import { getJSON } from '../lib/util'
-import loadJSON from 'load-json-file'
 import { find, map, pick, min, max, round, orderBy, last } from 'lodash'
 
 const dateToday = (today = '20200506') =>
@@ -229,6 +228,7 @@ export default ({ data = [], states = [], today = {} }) => {
 }
 
 export const getStaticProps = async () => {
+  const loadJSON = require('load-json-file')
   let states = await loadJSON('./public/states-full.json')
   states = states.map(state => pick(state, ['code', 'state', 'population']))
   let data = await getJSON('https://covidtracking.com/api/states')
