@@ -35,35 +35,41 @@ const getColorRange = dark =>
         '#f2d323', '#f1e825', '#e5f127', '#d5f028', '#cff02b' ]
 // http://www.colorbox.io/#steps=8#hue_start=17#hue_end=70#hue_curve=easeInOutSine#sat_start=28#sat_end=41#sat_curve=easeOutCubic#sat_rate=200#lum_start=71#lum_end=94#lum_curve=easeInExpo#lock_hex=e55934#minor_steps_map=0,30,40
 
-const Swatch = ({ bg, value, label }) => (
+const Swatch = ({ bg }) => (
   <>
     <Box
       sx={{ display: 'inline-block', p: 3, bg, borderRadius: 'default', mr: 2 }}
     />
-    {value && (
-      <Box sx={{ lineHeight: 'title', mr: 4 }}>
-        <Text as="span" sx={{ color: 'text', display: 'block' }}>
-          {round(value)}/100k
-        </Text>
-        <Text as="span" sx={{ color: 'muted', fontSize: 0 }}>
-          {label}
-        </Text>
-      </Box>
-    )}
   </>
 )
 
 const Legend = ({ colorRange, total }) => (
   <Flex sx={{ alignItems: 'center', justifyContent: 'center' }}>
-    <Swatch bg={colorRange[0]} value={min(total)} label="least" />
+    <Box sx={{ lineHeight: 'title', mr: 2, textAlign: 'right' }}>
+      <Text as="span" sx={{ color: 'text', display: 'block' }}>
+        {round(min(total))}/100k
+      </Text>
+      <Text as="span" sx={{ color: 'muted', fontSize: 0 }}>
+        least
+      </Text>
+    </Box>
+    <Swatch bg={colorRange[0]} />
     <Swatch bg={colorRange[3]} />
     <Swatch bg={colorRange[5]} />
     <Swatch bg={colorRange[7]} />
-    <Swatch bg={last(colorRange)} value={max(total)} label="most" />
+    <Swatch bg={last(colorRange)} />
+    <Box sx={{ lineHeight: 'title' }}>
+      <Text as="span" sx={{ color: 'text', display: 'block' }}>
+        {round(max(total))}/100k
+      </Text>
+      <Text as="span" sx={{ color: 'muted', fontSize: 0 }}>
+        most
+      </Text>
+    </Box>
   </Flex>
 )
 
-const testPop = today => round((today.total / 327200000) * 100, 3)
+const testPop = (today) => round((today.total / 327200000) * 100, 3)
 const Stats = ({ today }) => (
   <Grid columns={[2, 3]} sx={{ mb: [3, null, 4] }}>
     <Stat value={commaNumber(today.total)} label="Total U.S. tests" />
@@ -117,7 +123,7 @@ export default ({ data = [], states = [], today = {} }) => {
           testing. This site shows each state’s testing relative to their
           population.
         </Text>
-	{/*
+        {/*
         <details>
           <Text as="summary" sx={{ fontFamily: 'heading' }}>
             Top takeaways
@@ -177,7 +183,7 @@ export default ({ data = [], states = [], today = {} }) => {
           flexDirection: ['column-reverse', 'column'],
           '.rsm-geographies': {
             fontFamily: 'heading',
-            transform: theme => `translateY(-${theme.space[4]}px)`
+            transform: (theme) => `translateY(-${theme.space[4]}px)`
           }
         }}
       >
@@ -193,7 +199,12 @@ export default ({ data = [], states = [], today = {} }) => {
             tests
           </Controls>
           <Legend colorRange={colorRange} total={total} />
-          <Controls sx={{ gridRow: [2, 'unset'] }}>
+          <Controls
+            sx={{
+              gridRow: [2, 'unset'],
+              justifyContent: ['unset', 'flex-end']
+            }}
+          >
             Show
             <Control on={!showValues} set={setShowValues} label="States" />
             <Control on={showValues} set={setShowValues} label="Values" />
@@ -230,11 +241,11 @@ export default ({ data = [], states = [], today = {} }) => {
 export const getStaticProps = async () => {
   const loadJSON = require('load-json-file')
   let states = await loadJSON('./public/states-full.json')
-  states = states.map(state => pick(state, ['code', 'state', 'population']))
+  states = states.map((state) => pick(state, ['code', 'state', 'population']))
   let data = await getJSON('https://covidtracking.com/api/states')
   const continental = map(states, 'code')
   data = data.filter(({ state }) => continental.includes(state))
-  data = data.map(state => ({
+  data = data.map((state) => ({
     name: find(states, ['code', state.state]).state,
     pop: find(states, ['code', state.state]).population,
     ...state
