@@ -239,8 +239,7 @@ export default ({ data = [], states = [], today = {} }) => {
 }
 
 export const getStaticProps = async () => {
-  const loadJSON = require('load-json-file')
-  let states = await loadJSON('./public/states-full.json')
+  let states = require('../public/states-full.json')
   states = states.map((state) => pick(state, ['code', 'state', 'population']))
   let data = await getJSON('https://covidtracking.com/api/states')
   const continental = map(states, 'code')
