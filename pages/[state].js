@@ -161,14 +161,14 @@ export default ({ state, daily = [], latest = {}, info = {} }) => {
 }
 
 export const getStaticPaths = async () => {
-  const states = await loadJSON('./public/states-full.json')
-  const slugs = concat(map(states, 'code'), map(states, 'slug'))
+  const states = require('../public/states-full.json')
+  const slugs = concat(map(states, 'slug'), map(states, 'code'))
   const paths = slugs.map(state => ({ params: { state } }))
   return { paths, fallback: false }
 }
 
 export const getStaticProps = async ({ params }) => {
-  const states = await loadJSON('./public/states-full.json')
+  const states = require('../public/states-full.json')
   let { state } = params
   state =
     find(states, ['code', state.toUpperCase()]) ||
@@ -179,5 +179,5 @@ export const getStaticProps = async ({ params }) => {
   const latest = daily.length ? daily[0] : {}
   let info = await getJSON(`https://covidtracking.com/api/states/info`)
   info = find(info, { state: code })
-  return { props: { state, daily, latest, info }, unstable_revalidate: 4 }
+  return { props: { state, daily, latest, info }, unstable_revalidate: 60 }
 }
