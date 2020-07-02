@@ -15,7 +15,6 @@ import {
 } from 'theme-ui'
 import { Twitter, Globe } from 'react-feather'
 import { getJSON } from '../lib/util'
-import loadJSON from 'load-json-file'
 import MD from 'react-markdown'
 import { filter, find, orderBy, round, pick, map, concat } from 'lodash'
 
