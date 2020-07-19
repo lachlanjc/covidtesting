@@ -15,7 +15,7 @@
     "d3-scale": "^3.2.1",
     "human-format": "^0.10.1",
     "load-json-file": "^6.2.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "next": "^9.4.0",
     "nprogress": "^0.2.0",
     "react": "^16.13.1",
