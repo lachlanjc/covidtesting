@@ -117,7 +117,7 @@ export default ({ data = [], states = [], today = {} }) => {
           testing. This site shows each state’s testing relative to their
           population.
         </Text>
-	{/*
+        {/*
         <details>
           <Text as="summary" sx={{ fontFamily: 'heading' }}>
             Top takeaways
@@ -231,7 +231,9 @@ export const getStaticProps = async () => {
   const loadJSON = require('load-json-file')
   let states = await loadJSON('./public/states-full.json')
   states = states.map(state => pick(state, ['code', 'state', 'population']))
-  let data = await getJSON('https://covidtracking.com/api/states')
+  let data = await getJSON(
+    'https://api.covidtracking.com/v1/states/current.json'
+  )
   const continental = map(states, 'code')
   data = data.filter(({ state }) => continental.includes(state))
   data = data.map(state => ({
@@ -248,8 +250,8 @@ export const getStaticProps = async () => {
     totalPC: total / (pop / 100000),
     positivePC: positive / (pop / 100000)
   }))
-  let daily = await getJSON('https://covidtracking.com/api/us/daily')
+  let daily = await getJSON('https://api.covidtracking.com/v1/us/daily.json')
   daily = orderBy(daily, 'date')
   const today = last(daily)
-  return { props: { data, states, today }, unstable_revalidate: 4 }
+  return { props: { data, states, today }, revalidate: 4 }
 }
