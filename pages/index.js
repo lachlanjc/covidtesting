@@ -209,7 +209,7 @@ export default ({ data = [], states = [], today = {} }) => {
         />
       </Container>
       <Container variant="copy" sx={{ pt: [3, 0], pb: [4, 5] }}>
-        <Stats today={today} />
+        {/* <Stats today={today} /> */}
         <Heading as="h2" variant="headline">
           Top states
         </Heading>
