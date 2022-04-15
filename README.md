@@ -1,4 +1,4 @@
-<img alt="Banner" width="512" src="https://testing.predictcovid.com/card.png" />
+<img alt="Banner" width="512" src="https://covidtesting.vercel.app/card.png" />
 
 # The COVID-19 Testing Gap
 
@@ -8,9 +8,9 @@ This isn’t news.
 But depending on your state, you have very different access to testing.
 This is a website visualizing each state’s testing relative to their population.
 
-[**testing.predictcovid.com**](https://testing.predictcovid.com)
+[**covidtesting.vercel.app**](https://covidtesting.vercel.app)
 
-Also see: [**predictcovid.com**](https://predictcovid.com) ([repo](https://github.com/lachlanjc/covid19))
+Also see: [**predictcovid.netlify.app**](https://predictcovid.netlify.app) ([repo](https://github.com/lachlanjc/covid19))
 
 ## Getting started
 
